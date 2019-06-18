@@ -1,6 +1,7 @@
 package com.zjh.starter;
 
 import com.zjh.core.ClassScanner;
+import com.zjh.web.handler.HandlerManager;
 import com.zjh.web.server.TomcatServer;
 import org.apache.catalina.LifecycleException;
 
@@ -24,7 +25,7 @@ public class MiniApplication {
         try {
             tomcatServer.startServer();
             List<Class<?>> classList = ClassScanner.scamClasses(cls.getPackage().getName());
-            classList.forEach(it->System.out.println(it.getName()));
+            HandlerManager.resolveMappingHandler(classList);
         } catch (LifecycleException e) {
             e.printStackTrace();
         } catch (IOException e) {
