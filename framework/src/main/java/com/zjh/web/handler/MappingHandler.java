@@ -1,5 +1,7 @@
 package com.zjh.web.handler;
 
+import com.zjh.beans.BeanFactory;
+
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -34,16 +36,16 @@ public class MappingHandler {
             parameters[i] = req.getParameter(args[i]);
         }
 
-        Object ctl = controller.newInstance();
+        Object ctl = BeanFactory.getBean(controller);
         Object response = method.invoke(ctl,parameters);
         res.getWriter().print(response.toString());
         return true;
     }
 
-    public MappingHandler(String uri, Method method, Class<?> controller, String[] args) {
+    public MappingHandler(String uri, Method method, Class<?> cls, String[] args) {
         this.uri = uri;
         this.method = method;
-        this.controller = controller;
+        this.controller = cls;
         this.args = args;
     }
 }
