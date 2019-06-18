@@ -1,5 +1,6 @@
 package com.zjh.starter;
 
+import com.zjh.beans.BeanFactory;
 import com.zjh.core.ClassScanner;
 import com.zjh.web.handler.HandlerManager;
 import com.zjh.web.server.TomcatServer;
@@ -25,12 +26,16 @@ public class MiniApplication {
         try {
             tomcatServer.startServer();
             List<Class<?>> classList = ClassScanner.scamClasses(cls.getPackage().getName());
+            BeanFactory.initBean(classList);
             HandlerManager.resolveMappingHandler(classList);
+
         } catch (LifecycleException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
